@@ -1,6 +1,7 @@
 {
   "expo": {
     "name": "ec_shop",
+    "scheme": "ec_shop",
     "slug": "ec_shop",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -23,6 +24,9 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "plugins": [
+      "expo-router"
+    ]
   }
 }
