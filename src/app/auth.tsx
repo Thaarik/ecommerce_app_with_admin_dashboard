@@ -10,6 +10,7 @@ import React from "react";
 import { useForm, Controller } from "react-hook-form";
 import * as zod from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Stack } from "expo-router";
 
 // form structure
 const authSchema = zod.object({

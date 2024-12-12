@@ -1,8 +1,9 @@
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, ActivityIndicator } from "react-native";
 import React from "react";
-import { Tabs } from "expo-router";
+import { Redirect, Tabs } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { FontAwesome } from "@expo/vector-icons";
+import { useAuth } from "../../provider/auth-provider";
 
 function TabBarIcon(props: {
   name: React.ComponentProps<typeof FontAwesome>["name"];
@@ -12,6 +13,9 @@ function TabBarIcon(props: {
 }
 
 const TabsLayout = () => {
+  const { session, mounting } = useAuth();
+  if (mounting) return <ActivityIndicator />; // show loading when user session is being fetched form supabase
+  if (!session) return <Redirect href="/auth" />; // redirect to auth page if the session is unavailabale or expired
   return (
     <SafeAreaView edges={["top"]} style={styles.safeArea}>
       {/** to get rid of the space in the bottom of the tab we use edge={["top"]} */}
