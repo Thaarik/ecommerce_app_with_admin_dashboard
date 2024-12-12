@@ -3,6 +3,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as SecureStore from "expo-secure-store";
 import * as aesjs from "aes-js";
 import "react-native-get-random-values";
+import { YOUR_REACT_NATIVE_SUPABASE_URL } from "@env";
 
 const supabaseUrl = process.env.YOUR_REACT_NATIVE_SUPABASE_URL;
 const supabaseAnonKey = process.env.YOUR_REACT_NATIVE_SUPABASE_ANON_KEY;
