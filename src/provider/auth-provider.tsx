@@ -36,7 +36,7 @@ export default function AuthProvider({ children }: PropsWithChildren) {
         data: { session },
       } = await supabase.auth.getSession();
       setSession(session);
-      //after getting session, get its user details
+      //after getting session, get its user details (don't use this until you bring in the users table in supabase)
       if (session) {
         const { data: user, error } = await supabase
           .from("users") // users table
