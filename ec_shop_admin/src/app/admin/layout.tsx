@@ -1,4 +1,3 @@
-
 import { Footer } from "@/components/footer";
 import { Header } from "@/components/header";
 import { RenderMounted } from "@/components/render-mounted";
@@ -34,7 +33,6 @@ export default async function RootLayout({
     <RenderMounted>
       <Header />
       <main className="min-h-[calc(100svh-128px)] py-3">{children}</main>
-      {/** style mentions the remaining area between header and footer from the screen height (header height is 64px and footer height is 64 px so 64+64=128px) */}
       <Footer />
     </RenderMounted>
   );
