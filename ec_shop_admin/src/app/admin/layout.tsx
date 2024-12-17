@@ -1,8 +1,41 @@
+
+import { Footer } from "@/components/footer";
+import { Header } from "@/components/header";
+import { RenderMounted } from "@/components/render-mounted";
+import { ADMIN } from "@/constants/constants";
+import { createClient } from "@/supabase/server";
+import { redirect } from "next/navigation";
 import React, { ReactNode } from "react";
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{ children: ReactNode }>) {
   // TODO: Check if the user is authenticated and if user is authenticated, check whether the user role is Admin
-  return <div>{children}</div>;
+  const supabase = await createClient();
+
+  const { data: authData } = await supabase.auth.getUser();
+
+  if (authData?.user) {
+    const { data, error } = await supabase
+      .from("users")
+      .select("*")
+      .eq("id", authData.user.id)
+      .single();
+
+    if (error || !data) {
+      console.log("Error fetching user data", error);
+      return;
+    }
+
+    if (data.type === ADMIN) return redirect("/");
+  }
+
+  return (
+    <RenderMounted>
+      <Header />
+      <main className="min-h-[calc(100svh-128px)] py-3">{children}</main>
+      {/** style mentions the remaining area between header and footer from the screen height (header height is 64px and footer height is 64 px so 64+64=128px) */}
+      <Footer />
+    </RenderMounted>
+  );
 }
