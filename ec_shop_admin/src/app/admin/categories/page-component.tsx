@@ -82,7 +82,6 @@ const CategoriesPageComponent: FC<Props> = ({ categories }) => {
 
     switch (intent) {
       case "create": {
-        // upload image to supabase bucket storage
         const imageUrl = await handleImageUpload();
 
         if (imageUrl) {
@@ -96,7 +95,6 @@ const CategoriesPageComponent: FC<Props> = ({ categories }) => {
       }
       case "update": {
         if (image && currentCategory?.slug) {
-          // upload image to supabase bucket storage
           const imageUrl = await handleImageUpload();
 
           if (imageUrl) {
@@ -113,9 +111,8 @@ const CategoriesPageComponent: FC<Props> = ({ categories }) => {
           }
         }
       }
-
-      default:
-        console.error("Invalid intent");
+      // default:
+      //   console.error("Invalid intent");
     }
   };
 
