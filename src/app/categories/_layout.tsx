@@ -10,8 +10,6 @@ const CategoryLayout = () => {
         options={({ navigation }) => ({
           headerShown: true,
           headerLeft: () => (
-            // header position
-            // to  go back
             <TouchableOpacity onPress={() => navigation.goBack()}>
               <Ionicons name="arrow-back" size={24} color="black" />
             </TouchableOpacity>

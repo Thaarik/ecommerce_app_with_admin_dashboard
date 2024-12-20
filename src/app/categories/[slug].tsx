@@ -1,24 +1,38 @@
-import { View, Text, StyleSheet, Image, FlatList } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  Image,
+  FlatList,
+  ActivityIndicator,
+} from "react-native";
 import React from "react";
 import { Redirect, Stack, useLocalSearchParams } from "expo-router";
-import { CATEGORIES } from "../../../assets/categories";
-import { PRODUCTS } from "../../../assets/products";
 import ProductListItem from "../../components/product-list-Item";
+import { getCategoryAndProduct } from "../../api/api";
 
 const Category = () => {
   const { slug } = useLocalSearchParams<{ slug: string }>(); // to get the acces of the [slug]
   // if the slug value is found in category then continue or redirect to 404
-  const category = CATEGORIES.find((category) => category.slug === slug);
-  if (!category) return <Redirect href="/404" />;
-  const products = PRODUCTS.filter((product) => product.category.slug === slug);
+  const { data, error, isLoading } = getCategoryAndProduct(slug);
+
+  if (isLoading) return <ActivityIndicator />;
+
+  if (error || !data) return <Text>Error: {error?.message}</Text>;
+
+  if (!data.category || !data.products) return <Redirect href="/404" />;
+
   return (
     <View style={styles.container}>
-      <Stack.Screen options={{ title: category.name }} />
-      <Image source={{ uri: category.imageUrl }} style={styles.categoryImage} />
-      <Text style={styles.categoryName}>{category.name}</Text>
+      <Stack.Screen options={{ title: data.category.name }} />
+      <Image
+        source={{ uri: data.category.imageUrl }}
+        style={styles.categoryImage}
+      />
+      <Text style={styles.categoryName}>{data.category.name}</Text>
       <FlatList
-        data={products}
-        keyExtractor={item => item.id.toString()}
+        data={data.products}
+        keyExtractor={(item) => item.id.toString()}
         renderItem={({ item }) => <ProductListItem product={item} />}
         numColumns={2}
         columnWrapperStyle={styles.productRow}

@@ -9,23 +9,20 @@ import {
   View,
 } from "react-native";
 import { FontAwesome } from "@expo/vector-icons";
-import { CATEGORIES } from "../../assets/categories";
 import { useCartStore } from "../store/create-store";
 import { supabase } from "../lib/supabase";
+import { Tables } from "../types/database.types";
 
-// import { useCartStore } from '../store/cart-store';
-// import { Tables } from '../types/database.types';
+export const ListHeader = ({
+  categories,
+}: {
+  categories: Tables<"category">[];
+}) => {
+  const { getItemCount } = useCartStore();
 
-export const ListHeader = () => {
-  //   categories,
-  // }: {
-  //   categories: Tables<'category'>[];
-  // }) => {
-    const { getItemCount } = useCartStore();
-
-    const handleSignOut = async () => {
-      await supabase.auth.signOut();
-    };
+  const handleSignOut = async () => {
+    await supabase.auth.signOut();
+  };
 
   return (
     <View style={[styles.headerContainer]}>
@@ -75,7 +72,7 @@ export const ListHeader = () => {
       <View style={styles.categoriesContainer}>
         <Text style={styles.sectionTitle}>Categories</Text>
         <FlatList
-          data={CATEGORIES}
+          data={categories}
           renderItem={({ item }) => (
             <Link asChild href={`/categories/${item.slug}`}>
               <Pressable style={styles.category}>

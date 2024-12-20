@@ -1,20 +1,33 @@
-import { FlatList, StyleSheet, Text, View } from "react-native";
+import {
+  ActivityIndicator,
+  FlatList,
+  StyleSheet,
+  Text,
+  View,
+} from "react-native";
 import React from "react";
-import { PRODUCTS } from "../../../assets/products";
 import ProductListItem from "../../components/product-list-Item";
 import { ListHeader } from "../../components/list-header";
-import Auth from "../auth";
-import { useAuth } from "../../provider/auth-provider";
+import { getProductsAndCategories } from "../../api/api";
 
 const Home = () => {
+  const { data, error, isLoading } = getProductsAndCategories(); // This is a custom hook that fetches products and categories from the API
+  if (isLoading) {
+    return <ActivityIndicator size="large" color="#0000ff" />;
+  }
+  if (error || !data) {
+    return (
+      <Text>Error fetching data {error?.message || "An error occured"}</Text>
+    );
+  }
   return (
     <View>
       <FlatList
-        data={PRODUCTS}
+        data={data.products}
         renderItem={({ item }) => <ProductListItem product={item} />}
         keyExtractor={(item) => item.id.toString()}
         numColumns={2}
-        ListHeaderComponent={ListHeader}
+        ListHeaderComponent={<ListHeader categories={data.categories} />}
         contentContainerStyle={styles.flatListContent}
         columnWrapperStyle={styles.flatListColumn}
         style={{ paddingHorizontal: 10, paddingVertical: 5 }}

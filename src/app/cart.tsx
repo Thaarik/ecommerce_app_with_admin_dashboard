@@ -12,6 +12,7 @@ import {
 import React from "react";
 import { useCartStore } from "../store/create-store";
 import { StatusBar } from "expo-status-bar";
+import { createOrder, createOrderItem } from "../api/api";
 
 type CartItemType = {
   id: number;
@@ -77,9 +78,36 @@ const Cart = () => {
     getTotalPrice,
     resetCart,
   } = useCartStore();
+  const { mutateAsync: createSupabaseOrder } = createOrder();
+  const { mutateAsync: createSupabaseOrderItem } = createOrderItem();
 
-  const handleCheckout = () => {
-    Alert.alert("Proceeding to Checkout", `Total amount: $${getTotalPrice()}`);
+  const handleCheckout = async () => {
+    const totalPrice = parseFloat(getTotalPrice());
+    try {
+      await createSupabaseOrder(
+        { totalPrice },
+        {
+          onSuccess: async (data) => {
+            createSupabaseOrderItem(
+              items.map((item) => ({
+                orderId: data.id,
+                productId: item.id,
+                quantity: item.quantity,
+              })),
+              {
+                onSuccess: () => {
+                  alert("Order created Successfully!");
+                  resetCart();
+                },
+              }
+            );
+          },
+        }
+      );
+    } catch (error) {
+      console.error(error);
+      alert("An error occurred while creating order: " + error);
+    }
   };
 
   return (
