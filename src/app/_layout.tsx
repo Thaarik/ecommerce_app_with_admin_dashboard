@@ -11,7 +11,7 @@ const RootLayout = () => {
     <ToastProvider>
       <AuthProvider>
         <QueryProvider>
-        <StripeProvider publishableKey={process.env.STRIPE_PUBLISHABLE_KEY}>
+        <StripeProvider publishableKey={process.env.EXPO_PUBLIC_STRIPE_PUBLISHABLE_KEY}>
         <Stack>
             <Stack.Screen
               name="(shop)"

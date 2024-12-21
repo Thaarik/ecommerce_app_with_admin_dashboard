@@ -51,7 +51,7 @@ export const imageUploadHandler = async (formData: FormData) => {
     return publicUrl;
   } catch (error) {
     console.error("Error uploading image:", error);
-    throw new Error("Error uploading image");
+    throw new Error("Error uploading image:" + error);
   }
 };
 
