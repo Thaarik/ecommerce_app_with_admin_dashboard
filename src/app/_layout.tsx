@@ -4,13 +4,15 @@ import { Stack } from "expo-router";
 import { ToastProvider } from "react-native-toast-notifications";
 import AuthProvider from "../provider/auth-provider";
 import { QueryProvider } from "../provider/query-provider";
+import { StripeProvider } from "@stripe/stripe-react-native";
 
 const RootLayout = () => {
   return (
     <ToastProvider>
       <AuthProvider>
         <QueryProvider>
-          <Stack>
+        <StripeProvider publishableKey={process.env.STRIPE_PUBLISHABLE_KEY}>
+        <Stack>
             <Stack.Screen
               name="(shop)"
               options={{ headerShown: false, title: "Shop" }}
@@ -29,6 +31,7 @@ const RootLayout = () => {
             />
             <Stack.Screen name="auth" options={{ headerShown: false }} />
           </Stack>
+        </StripeProvider>
         </QueryProvider>
       </AuthProvider>
     </ToastProvider>

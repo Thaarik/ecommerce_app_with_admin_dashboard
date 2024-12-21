@@ -13,6 +13,7 @@ import React from "react";
 import { useCartStore } from "../store/create-store";
 import { StatusBar } from "expo-status-bar";
 import { createOrder, createOrderItem } from "../api/api";
+import { openStripeCheckout, setupStripePaymentSheet } from "../lib/stripe";
 
 type CartItemType = {
   id: number;
@@ -84,6 +85,12 @@ const Cart = () => {
   const handleCheckout = async () => {
     const totalPrice = parseFloat(getTotalPrice());
     try {
+      await setupStripePaymentSheet(Math.floor(totalPrice * 100));
+      const result = await openStripeCheckout();
+      if (!result) {
+        Alert.alert("An error occurred while opening the payment sheet");
+        return;
+      }
       await createSupabaseOrder(
         { totalPrice },
         {
