@@ -185,15 +185,7 @@ export type Database = {
           stripe_customer_id?: string | null
           type?: string | null
         }
-        Relationships: [
-          {
-            foreignKeyName: "users_id_fkey"
-            columns: ["id"]
-            isOneToOne: true
-            referencedRelation: "users"
-            referencedColumns: ["id"]
-          },
-        ]
+        Relationships: []
       }
     }
     Views: {
@@ -216,7 +208,6 @@ export type Database = {
     }
   }
 }
-
 
 type PublicSchema = Database[Extract<keyof Database, "public">]
 

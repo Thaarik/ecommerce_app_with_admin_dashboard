@@ -33,7 +33,9 @@
     "react-native-toast-notifications": "^3.4.0",
     "zod": "^3.24.1",
     "zustand": "^5.0.2",
-    "@stripe/stripe-react-native": "0.38.6"
+    "@stripe/stripe-react-native": "0.38.6",
+    "expo-notifications": "~0.29.11",
+    "expo-device": "~7.0.1"
   },
   "devDependencies": {
     "@babel/core": "^7.25.2",
