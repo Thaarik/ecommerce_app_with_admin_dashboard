@@ -3,8 +3,11 @@ import { Header } from "@/components/header";
 import { RenderMounted } from "@/components/render-mounted";
 import { ADMIN } from "@/constants/constants";
 import { createClient } from "@/supabase/server";
+import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import React, { ReactNode } from "react";
+
+// revalidatePath("/", "layout"); //https://nextjs.org/docs/app/api-reference/functions/revalidatePath
 
 export default async function RootLayout({
   children,
